@@ -1,0 +1,76 @@
+package CLASES;
+
+import java.util.Date;
+
+public class Viaje {
+	
+	private int IdViaje;
+	private ServicioOfrecido ServicioOfrecido;
+	private String Destino;
+	private Date FechaInicio;
+	private Guia GuiaAsociado;
+	private int MontoTotal;
+	private Reserva Reserva;
+	
+	public int getIdViaje() {
+		return IdViaje;
+	}
+
+	public void setIdViaje(int idViaje) {
+		IdViaje = idViaje;
+	}
+
+	public ServicioOfrecido getServicioOfrecido() {
+		return ServicioOfrecido;
+	}
+
+	public void setServicioOfrecido(ServicioOfrecido servicioOfrecido) {
+		ServicioOfrecido = servicioOfrecido;
+	}
+
+	public String getDestino() {
+		return Destino;
+	}
+
+	public void setDestino(String destino) {
+		Destino = destino;
+	}
+
+	public Date getFechaInicio() {
+		return FechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		FechaInicio = fechaInicio;
+	}
+
+	public Guia getGuiaAsociado() {
+		return GuiaAsociado;
+	}
+
+	public void setGuiaAsociado(Guia guiaAsociado) {
+		GuiaAsociado = guiaAsociado;
+	}
+
+	public int getMontoTotal() {
+		return MontoTotal;
+	}
+
+	public void setMontoTotal(int montoTotal) {
+		MontoTotal = montoTotal;
+	}
+
+	public Reserva getReserva() {
+		return Reserva;
+	}
+
+	public void setReserva(Reserva reserva) {
+		Reserva = reserva;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

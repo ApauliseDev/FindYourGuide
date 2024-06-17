@@ -1,0 +1,36 @@
+package CLASES;
+
+public class Guia extends Usuario {
+	
+	private String Pais;
+	private String Ciudad;
+	private Credencial Credencial;
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	public Guia(String pais, String ciudad, CLASES.Credencial credencial) {
+
+		Pais = pais;
+		Ciudad = ciudad;
+		Credencial = credencial;
+	}
+
+	public String getPais() {
+		return Pais;
+	}
+
+	public void setPais(String pais) {
+		this.Pais = pais;
+	}
+
+	public String getCiudad() {
+		return Ciudad;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.Ciudad = ciudad;
+	}
+
+}

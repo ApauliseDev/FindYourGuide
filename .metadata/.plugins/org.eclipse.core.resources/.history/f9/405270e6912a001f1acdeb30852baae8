@@ -1,0 +1,12 @@
+package CLASES;
+
+public class Turista extends Usuario {
+    public Turista(String nombre, String apellido, String sexo, int dni, String email, int telefono) {
+        super(nombre, apellido, sexo, dni, email, telefono);
+    }
+
+    @Override
+    public void actualizarPerfil() {
+        // Implementación específica para actualizar el perfil del turista
+    }
+}

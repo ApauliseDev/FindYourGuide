@@ -1,0 +1,80 @@
+package CLASES;
+
+import java.util.Date;
+
+public class Reserva {
+	
+	private String Estado;
+	private Date FechaDeInicio;
+	private Date FechaFin;
+	private int MontoDeAnticipo;
+	private Viaje Viaje;
+	
+	
+	
+	public String getEstado() {
+		return Estado;
+	}
+
+
+
+	public void setEstado(String estado) {
+		Estado = estado;
+	}
+
+
+
+	public Date getFechaDeInicio() {
+		return FechaDeInicio;
+	}
+
+
+
+	public void setFechaDeInicio(Date fechaDeInicio) {
+		FechaDeInicio = fechaDeInicio;
+	}
+
+
+
+	public Date getFechaFin() {
+		return FechaFin;
+	}
+
+
+
+	public void setFechaFin(Date fechaFin) {
+		FechaFin = fechaFin;
+	}
+
+
+
+	public int getMontoDeAnticipo() {
+		return MontoDeAnticipo;
+	}
+
+
+
+	public void setMontoDeAnticipo(int montoDeAnticipo) {
+		MontoDeAnticipo = montoDeAnticipo;
+	}
+
+
+
+	public Viaje getViaje() {
+		return Viaje;
+	}
+
+
+
+	public void setViaje(Viaje viaje) {
+		Viaje = viaje;
+	}
+
+
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

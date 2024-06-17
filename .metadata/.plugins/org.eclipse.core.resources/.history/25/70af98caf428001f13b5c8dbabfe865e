@@ -1,0 +1,15 @@
+package CLASES;
+
+public class ServicioOfrecido {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void add(ServicioOfrecido servicio) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
