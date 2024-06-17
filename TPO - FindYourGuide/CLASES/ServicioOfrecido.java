@@ -5,12 +5,13 @@ public class ServicioOfrecido {
     private String tipo;
     private String descripcion;
 
+
     public ServicioOfrecido(String tipo, String descripcion) {
         this.tipo = tipo;
         this.descripcion = descripcion;
     }
 
-    public String getTipo() {
+	public String getTipo() {
         return tipo;
     }
 

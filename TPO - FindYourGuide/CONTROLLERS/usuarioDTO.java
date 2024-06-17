@@ -11,13 +11,14 @@ public class usuarioDTO   {
 	private String email;
 	private int telefono;
 
-    public usuarioDTO(String nombre, String apellido, String sexo, int dni, String email, int telefono) {
+    public usuarioDTO(String tipoCuenta,String nombre, String apellido, String sexo, int dni, String email, int telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.sexo = sexo;
         this.dni = dni;
         this.email = email;
         this.telefono = telefono;
+        this.tipoCuenta = tipoCuenta;
     }
     
 
