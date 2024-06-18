@@ -1,8 +1,9 @@
 package CLASES;
 
 public class Turista extends Usuario {
-    public Turista(String nombre, String apellido, String sexo, int dni, String email, int telefono) {
-        super(nombre, apellido, sexo, dni, email, telefono);
+    public Turista(String nombre, String apellido, String sexo, int dni, String email, int telefono, String tipoCuenta, String tipoAutenticacion,
+    		String contraseña) {
+        super(nombre, apellido, sexo, dni, email, telefono, tipoCuenta, tipoAutenticacion, contraseña);
     }
 
     @Override

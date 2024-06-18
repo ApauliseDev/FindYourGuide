@@ -8,13 +8,24 @@ import CLASES.ServicioOfrecido;
 import CLASES.Usuario;
 import CLASES.Turista;
 import CLASES.Sistema;
+
+
 public class UsuarioController {
+	private List<Usuario> usuarios;
+	
+	public UsuarioController() {
+        this.usuarios = new ArrayList<>();}
+	
 	
     public static Usuario registrarUsuario(usuarioDTO usuarioDTO) {
         if ("Turista".equalsIgnoreCase(usuarioDTO.getTipoCuenta())) {
-            return new Turista(usuarioDTO.getNombre(),usuarioDTO.getApellido(),usuarioDTO.getSexo(),usuarioDTO.getDni(),usuarioDTO.getEmail(),usuarioDTO.getTelefono()  );
-        } else if ("Guía".equalsIgnoreCase(usuarioDTO.getTipoCuenta())) {
-     	Scanner Scanner = new Scanner(System.in);
+        	System.out.println("Usuario Turista creado con Exito!");
+            return new Turista(usuarioDTO.getNombre(), usuarioDTO.getApellido(), usuarioDTO.getSexo(), usuarioDTO.getDni(), 
+            		usuarioDTO.getEmail(), usuarioDTO.getTelefono(), usuarioDTO.getTipoCuenta(),
+            		usuarioDTO.getTipoAutenticacion(), usuarioDTO.getContraseña()  );
+        } else 
+        	if ("Guia".equalsIgnoreCase(usuarioDTO.getTipoCuenta())) {
+        			Scanner Scanner = new Scanner(System.in);
      	
   
      	int i = 1;
@@ -27,9 +38,10 @@ public class UsuarioController {
     	while(i != 0 ) {
      		paises.add(pais);
      		pais = Scanner.nextLine();
-     		if(pais == "0") {
+     		if(pais.equals("0")) {
      			i = 0;
      		}}
+    	
      	i = 1;
      	
        	System.out.println("Elije las ciudades en las que ofreceras tu servicios, coloca '0' para finalizar la carga. ");
@@ -37,7 +49,7 @@ public class UsuarioController {
      	while(i != 0 ) {
      		ciudades.add(ciudad);
      		ciudad = Scanner.nextLine();
-     		if(ciudad == "0") {
+     		if(ciudad.equals("0")) {
      			i = 0;
      		}
      		
@@ -68,11 +80,34 @@ public class UsuarioController {
 
      	}
      	
-     	
-            return new Guia(usuarioDTO.getNombre(),usuarioDTO.getApellido(),usuarioDTO.getSexo(),usuarioDTO.getDni(),usuarioDTO.getEmail(), usuarioDTO.getTelefono(),ciudades,paises,services);
+     		System.out.println("Usuario Guia creado con Exito!");
+            return new Guia(usuarioDTO.getNombre(), usuarioDTO.getApellido(), usuarioDTO.getSexo(), usuarioDTO.getDni(), 
+            		usuarioDTO.getEmail(), usuarioDTO.getTelefono(), usuarioDTO.getTipoCuenta(),
+            		usuarioDTO.getTipoAutenticacion(), usuarioDTO.getContraseña(),ciudades,paises,services);
         } else {
             throw new IllegalArgumentException("Tipo de cuenta no válido");
         }
     }
+    
+    
+    //LOGICA FUNCION DE INICIO SESION
+    public Usuario buscarUsuarioPorEmail(String email) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getEmail().equals(email)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public boolean verificarContraseña(Usuario usuario, String contrasena) {
+        return usuario.verificarContraseña(contrasena);
+    }
+    
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+
 
 }

@@ -2,16 +2,18 @@ package CONTROLLERS;
 
 
 public class usuarioDTO   {
-	
+
+	private String contraseña;
+	private String tipoAutenticacion;
 	private String tipoCuenta;
 	private String nombre;
 	private String apellido;
 	private String sexo;
-	private int dni;
+	private int dni;	
 	private String email;
 	private int telefono;
 
-    public usuarioDTO(String tipoCuenta,String nombre, String apellido, String sexo, int dni, String email, int telefono) {
+    public usuarioDTO(String nombre, String apellido, String sexo, int dni, String email, int telefono, String tipoCuenta, String tipoAtenticacion, String contraseña) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.sexo = sexo;
@@ -19,9 +21,26 @@ public class usuarioDTO   {
         this.email = email;
         this.telefono = telefono;
         this.tipoCuenta = tipoCuenta;
+        this.tipoAutenticacion = tipoAutenticacion;
+        this.contraseña = contraseña;
     }
     
+	public String getContraseña() {
+		return contraseña;
+	}
 
+	public void setContraseña(String contraseña) {
+		this.contraseña = contraseña;
+	}
+
+    
+	public String getTipoAutenticacion() {
+		return tipoAutenticacion;
+	}
+
+	public void setTipoAutenticacion(String tipoAutenticacion) {
+		this.tipoAutenticacion = tipoAutenticacion;
+	}
 
 	public String getTipoCuenta() {
 		return tipoCuenta;

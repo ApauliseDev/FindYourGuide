@@ -5,15 +5,17 @@ public class Guia extends Usuario {
 	 private List<String> paises;
      private List<ServicioOfrecido> servicios ;
 
-    public Guia(String nombre, String apellido, String sexo, int dni, String email, int telefono,
-    		 List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios) {
-        super(nombre, apellido, sexo, dni, email, telefono);
+    public Guia(String nombre, String apellido, String sexo, int dni, String email, int telefono, String tipoCuenta, String tipoAutenticacion,
+    		String contraseña, List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios) {
+        super(nombre, apellido, sexo, dni, email, telefono, tipoCuenta, tipoAutenticacion, contraseña);
         this.ciudades = ciudades;
         this.paises = paises;
         this.servicios = servicios;
     }
 
-    public List<String> getCiudades() {
+
+
+	public List<String> getCiudades() {
         return ciudades;
     }
 
