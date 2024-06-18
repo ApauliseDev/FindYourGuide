@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import CONTROLLERS.usuarioDTO;
+import CONTROLLERS.TipoUsuario;
 import CONTROLLERS.UsuarioController;
 
 public class Sistema {
@@ -50,11 +51,18 @@ public class Sistema {
         	
         	switch(opcionAcceso) {
         	
+        	System.out.println("Por favor, seleccione su rol (Guia/Turista): ");
+			TipoUsuario rol = Scanner.next();
+			
+			
+			if(rol == TipoUsuario.GUIA) {
+				
+			}
+        	
         	case 1: //REGISTRO
         			System.out.print("Por favor, seleccione el modo de autenticacion (Mail/Apple-ID/Google/Facebook): ");
         			String autenticacion = Scanner.next();
-        			System.out.println("Por favor, seleccione su rol (Guia/Turista): ");
-        			String rol = Scanner.next();
+        			
         			System.out.println("======================================================" );
         			System.out.println("Usted esta creando una cuenta de " + rol + " con: " + autenticacion + "\n");
         			System.out.println("Nombre:");

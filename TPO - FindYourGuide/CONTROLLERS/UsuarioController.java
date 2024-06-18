@@ -18,6 +18,16 @@ public class UsuarioController {
 	
 	
     public static Usuario registrarUsuario(usuarioDTO usuarioDTO) {
+    	Usuario user;
+    	if(usuarioDTO.getTipoCuenta() == TipoUsuario.GUIA) {
+    		user = new Guia(null, null, null, 0, null, 0, null, null, null, null, null, null);
+    		
+    		
+    	}
+    	
+    	user.guardar();
+    		
+    	/*
         if ("Turista".equalsIgnoreCase(usuarioDTO.getTipoCuenta())) {
         	System.out.println("Usuario Turista creado con Exito!");
             return new Turista(usuarioDTO.getNombre(), usuarioDTO.getApellido(), usuarioDTO.getSexo(), usuarioDTO.getDni(), 
@@ -87,6 +97,7 @@ public class UsuarioController {
         } else {
             throw new IllegalArgumentException("Tipo de cuenta no válido");
         }
+        */
     }
     
     

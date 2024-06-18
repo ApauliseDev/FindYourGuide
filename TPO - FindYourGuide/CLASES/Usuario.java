@@ -108,6 +108,7 @@ public abstract class Usuario {
     // Método abstracto para actualizar perfil
     public abstract void actualizarPerfil(String nombre, String email);
     
+    
 }
 
 

@@ -5,7 +5,7 @@ public class usuarioDTO   {
 
 	private String contraseña;
 	private String tipoAutenticacion;
-	private String tipoCuenta;
+	private TipoUsuario tipoCuenta;
 	private String nombre;
 	private String apellido;
 	private String sexo;
@@ -13,7 +13,7 @@ public class usuarioDTO   {
 	private String email;
 	private int telefono;
 
-    public usuarioDTO(String nombre, String apellido, String sexo, int dni, String email, int telefono, String tipoCuenta, String tipoAtenticacion, String contraseña) {
+    public usuarioDTO(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, String tipoAtenticacion, String contraseña) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.sexo = sexo;
@@ -42,11 +42,11 @@ public class usuarioDTO   {
 		this.tipoAutenticacion = tipoAutenticacion;
 	}
 
-	public String getTipoCuenta() {
+	public TipoUsuario getTipoCuenta() {
 		return tipoCuenta;
 	}
 
-	public void setTipoCuenta(String tipoCuenta) {
+	public void setTipoCuenta(TipoUsuario tipoCuenta) {
 		this.tipoCuenta = tipoCuenta;
 	}
 
