@@ -1,5 +1,7 @@
 package CLASES;
 
+import java.util.List;
+
 public abstract class Usuario {
 	
 	private String nombre;
@@ -12,6 +14,7 @@ public abstract class Usuario {
 	private String tipoAutenticacion;
 	private String tipoCuenta;
 
+
 	
     public Usuario(String nombre, String apellido, String sexo, int dni, String email, int telefono,String tipoCuenta, String tipoAutenticacion, String contraseña) {
         this.nombre = nombre;
@@ -23,6 +26,7 @@ public abstract class Usuario {
         this.tipoCuenta = tipoCuenta;
         this.tipoAutenticacion = tipoAutenticacion;
         this.contraseña = contraseña;
+
     }
     
     // Getters y Setters
@@ -107,7 +111,6 @@ public abstract class Usuario {
 
     // Método abstracto para actualizar perfil
     public abstract void actualizarPerfil(String nombre, String email);
-    
     
 }
 

@@ -20,7 +20,9 @@ public class UsuarioController {
     public static Usuario registrarUsuario(usuarioDTO usuarioDTO) {
     	Usuario user;
     	if(usuarioDTO.getTipoCuenta() == TipoUsuario.GUIA) {
-    		user = new Guia(null, null, null, 0, null, 0, null, null, null, null, null, null);
+    		user = new Guia(usuarioDTO.getNombre(), usuarioDTO.getApellido(),usuarioDTO.getSexo() , usuarioDTO.getDni(), usuarioDTO.getEmail(), 
+    				usuarioDTO.getTelefono(), usuarioDTO.getTipoCuenta(), usuarioDTO.getTipoAutenticacion(), usuarioDTO.getContraseña(), 
+    				usuarioDTO.getCiudades(), usuarioDTO.getPaises(), usuarioDTO.getServiciosOfrecidos());
     		
     		
     	}
@@ -119,6 +121,6 @@ public class UsuarioController {
         return usuarios;
     }
 
-
+    
 
 }

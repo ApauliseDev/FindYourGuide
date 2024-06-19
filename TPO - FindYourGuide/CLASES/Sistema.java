@@ -7,7 +7,7 @@ import CONTROLLERS.TipoUsuario;
 import CONTROLLERS.UsuarioController;
 
 public class Sistema {
-	private List<Usuario> usuarios;
+	private static List<Usuario> usuarios;
 	private static List<ServicioOfrecido> serviciosSistema;
 	private UsuarioController usuarioController;
 
@@ -129,10 +129,7 @@ public class Sistema {
         	}
         	
         	
-        	}
-        	
-        //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        	
+        	}    	
         
         
         
