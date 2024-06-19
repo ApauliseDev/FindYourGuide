@@ -6,6 +6,7 @@ public class Guia extends Usuario {
 	 private List<String> ciudades;
 	 private List<String> paises;
      private List<ServicioOfrecido> servicios ;
+     private Credencial credencial;
 
     public Guia(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion,
     		String contraseña, List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios) {
@@ -16,6 +17,23 @@ public class Guia extends Usuario {
     }
 
 
+    public void setCredencial(Credencial credencial) {
+        this.credencial = credencial;
+    }
+
+    public Credencial getCredencial() {
+        return credencial;
+    }
+    
+    public void verificarCredencialGuia() {
+        if (credencial == null) {
+            System.out.println("El guia no tiene una credencial asignada.");
+            return;
+        }
+
+        IDVerificacionAdapter adapter = new IDVerificacionAdapterImpl(credencial);
+        adapter.verificarCredencial();
+    }
 
 	public List<String> getCiudades() {
         return ciudades;

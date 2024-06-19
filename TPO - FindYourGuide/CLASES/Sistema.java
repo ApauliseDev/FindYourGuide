@@ -31,10 +31,18 @@ public class Sistema {
         
         // Crear y registrar algunos usuarios
         usuarioDTO user1 = new usuarioDTO("Juan", "Perez", "M", 12345678, "juan@example.com", 123456789, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password123", null, null, null);
-        usuarioDTO user2 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour personalizado")));
-
+        usuarioDTO user2 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour grupal")));
+        usuarioDTO user3 = new usuarioDTO("Carlos", "Lopez", "M", 23456789, "carlos@example.com", 234567890, TipoUsuario.TURISTA, TipoAutenticacion.Facebook, "password789", null, null, null);
+        usuarioDTO user4 = new usuarioDTO("Ana", "Martinez", "F", 34567890, "ana@example.com", 345678901, TipoUsuario.GUIA, TipoAutenticacion.AppleID, "password012", List.of("Barcelona", "Valencia"), List.of("España"), List.of(new ServicioOfrecido("Traducciones", "Tour Individual"), new ServicioOfrecido("Tour Grupal", "Tour para grupos grandes")));
+        usuarioDTO user5 = new usuarioDTO("David", "Garcia", "M", 45678901, "david@example.com", 456789012, TipoUsuario.GUIA, TipoAutenticacion.Google, "password345", List.of("Sevilla", "Granada"), List.of("España"), List.of(new ServicioOfrecido("Tour Grupal", "Traducciones"), new ServicioOfrecido("Tour de Naturaleza", "Tour por parques y reservas naturales")));
+        usuarioDTO user6 = new usuarioDTO("Laura", "Fernandez", "F", 56789012, "laura@example.com", 567890123, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password678", null, null, null);
+        
         UsuarioController.registrarUsuario(user1);
         UsuarioController.registrarUsuario(user2);
+        UsuarioController.registrarUsuario(user3);
+        UsuarioController.registrarUsuario(user4);
+        UsuarioController.registrarUsuario(user5);
+        UsuarioController.registrarUsuario(user6);
         
         
         while(true) {
@@ -119,6 +127,7 @@ public class Sistema {
 
                 usuarioDTO uDTO = new usuarioDTO(nombre, apellido, sexo, dni, email, telefono,
                 		rol, autenticacion, contrasena, ciudades, paises, servicios);
+                usuarioController.registrarUsuario(uDTO);
 
                 break;
                 
