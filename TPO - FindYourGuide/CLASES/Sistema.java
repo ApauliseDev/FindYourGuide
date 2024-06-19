@@ -3,28 +3,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import CONTROLLERS.usuarioDTO;
+import CONTROLLERS.TipoAutenticacion;
 import CONTROLLERS.TipoUsuario;
 import CONTROLLERS.UsuarioController;
 
 public class Sistema {
 	private static List<Usuario> usuarios;
 	private static List<ServicioOfrecido> serviciosSistema;
-	private UsuarioController usuarioController;
+	private static UsuarioController usuarioController;
 
     public Sistema() {
         this.usuarios = new ArrayList<>();
         this.usuarioController = new UsuarioController();
-    }
-    
-    public void actualizarPerfil(String tipoUsuario, String nombre, String email) {
-        for (Usuario usuario : usuarios) {
-            if ((usuario instanceof Guia && tipoUsuario.equalsIgnoreCase("Guia")) ||
-                (usuario instanceof Turista && tipoUsuario.equalsIgnoreCase("Turista"))) {
-                usuario.actualizarPerfil(nombre, email);
-                return;
-            }
-        }
-        System.out.println("Usuario no encontrado o tipo de usuario incorrecto.");
     }
     
     
@@ -39,6 +29,13 @@ public class Sistema {
         ServicioOfrecido servicio3 = new ServicioOfrecido("Tour Grupal", "Tour para entre 3 a 8 personas");
      
         
+        // Crear y registrar algunos usuarios
+        usuarioDTO user1 = new usuarioDTO("Juan", "Perez", "M", 12345678, "juan@example.com", 123456789, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password123", null, null, null);
+        usuarioDTO user2 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour personalizado")));
+
+        UsuarioController.registrarUsuario(user1);
+        UsuarioController.registrarUsuario(user2);
+        
         
         while(true) {
         	
@@ -46,52 +43,86 @@ public class Sistema {
 
         	System.out.println("1- Crear nueva cuenta");
         	System.out.println("2- Iniciar sesion");
+        	System.out.println("3- Salir");
         	
         	int opcionAcceso = Scanner.nextInt();
         	
-        	switch(opcionAcceso) {
-        	
-        	System.out.println("Por favor, seleccione su rol (Guia/Turista): ");
-			TipoUsuario rol = Scanner.next();
-			
-			
-			if(rol == TipoUsuario.GUIA) {
-				
-			}
-        	
+        	switch(opcionAcceso) 
+        	{
+     
         	case 1: //REGISTRO
-        			System.out.print("Por favor, seleccione el modo de autenticacion (Mail/Apple-ID/Google/Facebook): ");
-        			String autenticacion = Scanner.next();
-        			
-        			System.out.println("======================================================" );
-        			System.out.println("Usted esta creando una cuenta de " + rol + " con: " + autenticacion + "\n");
-        			System.out.println("Nombre:");
-        			String name = Scanner.next();
-        			System.out.println("Apellido:");
-        			String apellido = Scanner.next();
-        			System.out.println("Sexo: (M/F)");
-        			String sexo = Scanner.next();
-        			System.out.println("DNI:");
-        			int DNI = Scanner.nextInt();
-        			System.out.println("Email:");
-        			//Verificacion para ver si el mail ya existe
-        			String mail = Scanner.next();
-        			System.out.println("Telefono:");
-        			int telefono = Scanner.nextInt();
-        			System.out.println("Contraseña:");
-        			String contraseña = Scanner.next();
-        			
-       
-        			usuarioDTO uDTO = new usuarioDTO(name,apellido,sexo,DNI,mail,telefono,rol,autenticacion,contraseña);
-        			
-        		Usuario nuevoUsuario = UsuarioController.registrarUsuario(uDTO);
-        		//VALIDACION DE QUE NO SE REPITA EL USUARIO
-        		if (nuevoUsuario != null) {
-                    System.out.println("Cuenta creada exitosamente.");
-                } else {
-                    System.out.println("Error al crear la cuenta.");
+                System.out.println("Por favor, seleccione su rol (1-Guia, 2-Turista): ");
+                int tipoUsuarioInt = Scanner.nextInt();
+                TipoUsuario rol = tipoUsuarioInt == 1 ? TipoUsuario.GUIA : TipoUsuario.TURISTA;
+
+                System.out.println("Por favor, seleccione el modo de autenticación (1-Mail, 2-Apple-ID, 3-Google, 4-Facebook): ");
+                int tipoAutenticacionInt = Scanner.nextInt();
+                TipoAutenticacion autenticacion = TipoAutenticacion.values()[tipoAutenticacionInt - 1];
+
+                System.out.println("Nombre:");
+                String nombre = Scanner.next();
+                System.out.println("Apellido:");
+                String apellido = Scanner.next();
+                System.out.println("Sexo: (M/F)");
+                String sexo = Scanner.next();
+                System.out.println("DNI:");
+                int dni = Scanner.nextInt();
+                System.out.println("Email:");
+                String email = Scanner.next();
+                System.out.println("Teléfono:");
+                int telefono = Scanner.nextInt();
+                System.out.println("Contraseña:");
+                String contrasena = Scanner.next();
+
+                List<String> ciudades = new ArrayList<>();
+                List<String> paises = new ArrayList<>();
+                List<ServicioOfrecido> servicios = new ArrayList<>();
+
+                if (rol == TipoUsuario.GUIA) {
+                    Scanner.nextLine(); // Consumir el salto de línea
+
+                    System.out.println("Elije los países en los que ofrecerás tus servicios, coloca '0' para finalizar la carga.");
+                    String pais;
+                    while (!(pais = Scanner.nextLine()).equals("0")) {
+                        paises.add(pais);
+                    }
+
+                    System.out.println("Elije las ciudades en las que ofrecerás tus servicios, coloca '0' para finalizar la carga.");
+                    String ciudad;
+                    while (!(ciudad = Scanner.nextLine()).equals("0")) {
+                        ciudades.add(ciudad);
+                    }
+
+                    System.out.println("Elije los servicios predefinidos para ofrecer, coloca '0' para finalizar la carga.");
+                    System.out.println("1-Tour Individual");
+                    System.out.println("2-Traducciones");
+                    System.out.println("3-Tour Grupal");
+
+                    int res;
+                    while ((res = Scanner.nextInt()) != 0) {
+                        switch (res) {
+                            case 1:
+                                servicios.add(new ServicioOfrecido("Tour Individual", "Tour armado especialmente para vos"));
+                                break;
+                            case 2:
+                                servicios.add(new ServicioOfrecido("Traducción", "Traducción únicamente en Italiano"));
+                                break;
+                            case 3:
+                                servicios.add(new ServicioOfrecido("Tour Grupal", "Tour para entre 3 a 8 personas"));
+                                break;
+                            default:
+                                System.out.println("Opción no válida.");
+                                break;
+                        }
+                    }
                 }
+
+                usuarioDTO uDTO = new usuarioDTO(nombre, apellido, sexo, dni, email, telefono,
+                		rol, autenticacion, contrasena, ciudades, paises, servicios);
+
                 break;
+                
+                
         		
         	case 2: //INICIO SESION
         		System.out.println("Email:");
@@ -112,13 +143,12 @@ public class Sistema {
                 }
                 break;
         		
-        		
-        		
         	 case 3: // SALIR
+        		 usuarioController.imprimirUsuarios();
                  System.out.println("Saliendo del programa.");
                  Scanner.close();
+                 	
                  return;
-                 
         		}
         	
         	

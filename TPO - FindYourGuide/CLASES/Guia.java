@@ -1,11 +1,13 @@
 package CLASES;
 import java.util.List;
+import CONTROLLERS.TipoUsuario;
+import CONTROLLERS.TipoAutenticacion;
 public class Guia extends Usuario {
 	 private List<String> ciudades;
 	 private List<String> paises;
      private List<ServicioOfrecido> servicios ;
 
-    public Guia(String nombre, String apellido, String sexo, int dni, String email, int telefono, String tipoCuenta, String tipoAutenticacion,
+    public Guia(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion,
     		String contraseña, List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios) {
         super(nombre, apellido, sexo, dni, email, telefono, tipoCuenta, tipoAutenticacion, contraseña);
         this.ciudades = ciudades;
@@ -51,5 +53,12 @@ public class Guia extends Usuario {
 
     public void eliminarServicio(ServicioOfrecido servicio) {
         servicios.remove(servicio);
+    }
+    
+    public String toString() {
+        return super.toString() +
+                ", Ciudades: " + ciudades +
+                ", Países: " + paises +
+                ", Servicios Ofrecidos: " + servicios;
     }
 }

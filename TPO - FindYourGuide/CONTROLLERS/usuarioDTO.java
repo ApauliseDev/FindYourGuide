@@ -19,7 +19,8 @@ public class usuarioDTO   {
 	private List<String> paises;
     private List<ServicioOfrecido> servicios ; 
 
-    public usuarioDTO(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, TipoUsuario tipoAtenticacion, String contraseña,
+    public usuarioDTO(String nombre, String apellido, String sexo, int dni, String email, 
+    		int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion, String contraseña,
     		List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios) {
         this.nombre = nombre;
         this.apellido = apellido;

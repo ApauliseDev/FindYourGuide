@@ -1,6 +1,9 @@
 package CLASES;
 
 import java.util.List;
+import CONTROLLERS.TipoUsuario;
+import CONTROLLERS.UsuarioController;
+import CONTROLLERS.TipoAutenticacion;
 
 public abstract class Usuario {
 	
@@ -11,12 +14,12 @@ public abstract class Usuario {
 	private String email;
 	private int telefono;
 	private String contraseña;
-	private String tipoAutenticacion;
-	private String tipoCuenta;
+	private TipoAutenticacion tipoAutenticacion;
+	private TipoUsuario tipoCuenta;
 
 
 	
-    public Usuario(String nombre, String apellido, String sexo, int dni, String email, int telefono,String tipoCuenta, String tipoAutenticacion, String contraseña) {
+    public Usuario(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion, String contraseña) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.sexo = sexo;
@@ -45,19 +48,19 @@ public abstract class Usuario {
         return this.contraseña.equals(contraseña);
     }
     
-	public String getTipoAutenticacion() {
+	public TipoAutenticacion getTipoAutenticacion() {
 		return tipoAutenticacion;
 	}
 
-	public void setTipoAutenticacion(String tipoAutenticacion) {
+	public void setTipoAutenticacion(TipoAutenticacion tipoAutenticacion) {
 		this.tipoAutenticacion = tipoAutenticacion;
 	}
 
-	public String getTipoCuenta() {
+	public TipoUsuario getTipoCuenta() {
 		return tipoCuenta;
 	}
 
-	public void setTipoCuenta(String tipoCuenta) {
+	public void setTipoCuenta(TipoUsuario tipoCuenta) {
 		this.tipoCuenta = tipoCuenta;
 	}
     
@@ -111,6 +114,23 @@ public abstract class Usuario {
 
     // Método abstracto para actualizar perfil
     public abstract void actualizarPerfil(String nombre, String email);
+    
+    public void guardar() {
+        UsuarioController.getUsuarios().add(this);
+    }
+    
+    // Sobrescribir el método toString para imprimir todos los atributos
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre +
+                ", Apellido: " + apellido +
+                ", Sexo: " + sexo +
+                ", DNI: " + dni +
+                ", Email: " + email +
+                ", Teléfono: " + telefono +
+                ", Tipo de Cuenta: " + tipoCuenta +
+                ", Tipo de Autenticación: " + tipoAutenticacion;
+    }
     
 }
 
