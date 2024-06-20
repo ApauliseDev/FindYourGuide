@@ -1,11 +1,13 @@
 package CLASES;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import CONTROLLERS.usuarioDTO;
 import CONTROLLERS.TipoAutenticacion;
 import CONTROLLERS.TipoUsuario;
 import CONTROLLERS.UsuarioController;
+import INTERFACES.SistemaVerificacion;
 
 public class Sistema {
 	private static List<Usuario> usuarios;
@@ -24,18 +26,18 @@ public class Sistema {
     	Sistema sistema = new Sistema();
     	Scanner Scanner = new Scanner(System.in);
     	
-        ServicioOfrecido servicio1 = new ServicioOfrecido("Tour Individual", "Tour armado especialmente para vos");
-        ServicioOfrecido servicio2 = new ServicioOfrecido("Traducciones", "Traduccion unicmanete en Italiano");
-        ServicioOfrecido servicio3 = new ServicioOfrecido("Tour Grupal", "Tour para entre 3 a 8 personas");
+        ServicioOfrecido servicio1 = new ServicioOfrecido("Tour Individual", "Tour armado especialmente para vos",100);
+        ServicioOfrecido servicio2 = new ServicioOfrecido("Traducciones", "Traduccion unicmanete en Italiano",300);
+        ServicioOfrecido servicio3 = new ServicioOfrecido("Tour Grupal", "Tour para entre 3 a 8 personas",250);
      
         
         // Crear y registrar algunos usuarios
-        usuarioDTO user1 = new usuarioDTO("Juan", "Perez", "M", 12345678, "juan@example.com", 123456789, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password123", null, null, null);
-        usuarioDTO user2 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour grupal")));
-        usuarioDTO user3 = new usuarioDTO("Carlos", "Lopez", "M", 23456789, "carlos@example.com", 234567890, TipoUsuario.TURISTA, TipoAutenticacion.Facebook, "password789", null, null, null);
-        usuarioDTO user4 = new usuarioDTO("Ana", "Martinez", "F", 34567890, "ana@example.com", 345678901, TipoUsuario.GUIA, TipoAutenticacion.AppleID, "password012", List.of("Barcelona", "Valencia"), List.of("España"), List.of(new ServicioOfrecido("Traducciones", "Tour Individual"), new ServicioOfrecido("Tour Grupal", "Tour para grupos grandes")));
-        usuarioDTO user5 = new usuarioDTO("David", "Garcia", "M", 45678901, "david@example.com", 456789012, TipoUsuario.GUIA, TipoAutenticacion.Google, "password345", List.of("Sevilla", "Granada"), List.of("España"), List.of(new ServicioOfrecido("Tour Grupal", "Traducciones"), new ServicioOfrecido("Tour de Naturaleza", "Tour por parques y reservas naturales")));
-        usuarioDTO user6 = new usuarioDTO("Laura", "Fernandez", "F", 56789012, "laura@example.com", 567890123, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password678", null, null, null);
+        usuarioDTO user1 = new usuarioDTO("Juan", "Perez", "M", 12345678, "juan@example.com", 123456789, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password123", null, null, null,null);
+        usuarioDTO user2 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour grupal",250)),null);
+        usuarioDTO user3 = new usuarioDTO("Carlos", "Lopez", "M", 23456789, "carlos@example.com", 234567890, TipoUsuario.TURISTA, TipoAutenticacion.Facebook, "password789", null, null, null,null);
+        usuarioDTO user4 = new usuarioDTO("Ana", "Martinez", "F", 34567890, "ana@example.com", 345678901, TipoUsuario.GUIA, TipoAutenticacion.AppleID, "password012", List.of("Barcelona", "Valencia"), List.of("España"), List.of(new ServicioOfrecido("Traducciones", "Tour Individual",100), new ServicioOfrecido("Tour Grupal", "Tour para grupos grandes",250)),null);
+        usuarioDTO user5 = new usuarioDTO("David", "Garcia", "M", 45678901, "david@example.com", 456789012, TipoUsuario.GUIA, TipoAutenticacion.Google, "password345", List.of("Sevilla", "Granada"), List.of("España"), List.of(new ServicioOfrecido("Tour Grupal", "Traducciones",300), new ServicioOfrecido("Tour de Naturaleza", "Tour por parques y reservas naturales",10)),null);
+        usuarioDTO user6 = new usuarioDTO("Laura", "Fernandez", "F", 56789012, "laura@example.com", 567890123, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password678", null, null, null,null);
         
         UsuarioController.registrarUsuario(user1);
         UsuarioController.registrarUsuario(user2);
@@ -44,6 +46,9 @@ public class Sistema {
         UsuarioController.registrarUsuario(user5);
         UsuarioController.registrarUsuario(user6);
         
+        
+        SistemaVerificacion sistemaVerificacion = new SistemaVerificacionIA();
+        AdaptadorVerificacion adaptadorVerificacion = new AdaptadorVerificacion(sistemaVerificacion);
         
         while(true) {
         	
@@ -110,24 +115,37 @@ public class Sistema {
                     while ((res = Scanner.nextInt()) != 0) {
                         switch (res) {
                             case 1:
-                                servicios.add(new ServicioOfrecido("Tour Individual", "Tour armado especialmente para vos"));
+                                servicios.add(servicio1);
                                 break;
                             case 2:
-                                servicios.add(new ServicioOfrecido("Traducción", "Traducción únicamente en Italiano"));
+                                servicios.add(servicio2);
                                 break;
                             case 3:
-                                servicios.add(new ServicioOfrecido("Tour Grupal", "Tour para entre 3 a 8 personas"));
+                                servicios.add(servicio3);
                                 break;
                             default:
                                 System.out.println("Opción no válida.");
                                 break;
                         }
                     }
+                    
+                    Credencial credencial = new Credencial(email, new Date(), new Date(System.currentTimeMillis() + 86400000), dni);
+                    boolean credencialVerificada = adaptadorVerificacion.verificar(credencial);
+                  
+                    if (credencialVerificada) {
+                        usuarioDTO uDTO = new usuarioDTO(nombre, apellido, sexo, dni, email, telefono,
+                                rol, autenticacion, contrasena, ciudades, paises, servicios, credencial);
+                        usuarioController.registrarUsuario(uDTO);
+                        System.out.println("Guía registrado exitosamente con credencial verificada.");
+                    } else {
+                        System.out.println("Error al verificar la credencial. Registro de guía fallido.");
+                    }
+                } else {
+                    usuarioDTO uDTO = new usuarioDTO(nombre, apellido, sexo, dni, email, telefono,
+                            rol, autenticacion, contrasena, null, null, null,null);
+                    usuarioController.registrarUsuario(uDTO);
                 }
 
-                usuarioDTO uDTO = new usuarioDTO(nombre, apellido, sexo, dni, email, telefono,
-                		rol, autenticacion, contrasena, ciudades, paises, servicios);
-                usuarioController.registrarUsuario(uDTO);
 
                 break;
                 
@@ -159,11 +177,6 @@ public class Sistema {
                  	
                  return;
         		}
-        	
-        	
-        		
-        		
-        		
         		
         	}
         	

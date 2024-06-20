@@ -1,5 +1,6 @@
 package CLASES;
 import java.util.List;
+import CLASES.AdaptadorVerificacion;
 import CONTROLLERS.TipoUsuario;
 import CONTROLLERS.TipoAutenticacion;
 public class Guia extends Usuario {
@@ -9,11 +10,12 @@ public class Guia extends Usuario {
      private Credencial credencial;
 
     public Guia(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion,
-    		String contraseña, List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios) {
+    		String contraseña, List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios,Credencial credencial) {
         super(nombre, apellido, sexo, dni, email, telefono, tipoCuenta, tipoAutenticacion, contraseña);
         this.ciudades = ciudades;
         this.paises = paises;
         this.servicios = servicios;
+        this.credencial = credencial;
     }
 
 
@@ -25,16 +27,7 @@ public class Guia extends Usuario {
         return credencial;
     }
     
-    public void verificarCredencialGuia() {
-        if (credencial == null) {
-            System.out.println("El guia no tiene una credencial asignada.");
-            return;
-        }
-
-        IDVerificacionAdapter adapter = new IDVerificacionAdapterImpl(credencial);
-        adapter.verificarCredencial();
-    }
-
+  
 	public List<String> getCiudades() {
         return ciudades;
     }
@@ -73,10 +66,15 @@ public class Guia extends Usuario {
         servicios.remove(servicio);
     }
     
+    private String formatList(List<?> list) {
+        return list.toString().replace("[", "").replace("]", "");
+    }
+    
+    
     public String toString() {
         return super.toString() +
                 ", Ciudades: " + ciudades +
                 ", Países: " + paises +
-                ", Servicios Ofrecidos: " + servicios;
+                ", Servicios Ofrecidos: " + formatList(servicios);
     }
 }

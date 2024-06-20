@@ -34,7 +34,7 @@ public class UsuarioController {
     	if(usuarioDTO.getTipoCuenta() == TipoUsuario.GUIA) {
     		user = new Guia(usuarioDTO.getNombre(), usuarioDTO.getApellido(),usuarioDTO.getSexo() , usuarioDTO.getDni(), usuarioDTO.getEmail(), 
     				usuarioDTO.getTelefono(), usuarioDTO.getTipoCuenta(), usuarioDTO.getTipoAutenticacion(), usuarioDTO.getContraseña(), 
-    				usuarioDTO.getCiudades(), usuarioDTO.getPaises(), usuarioDTO.getServiciosOfrecidos());
+    				usuarioDTO.getCiudades(), usuarioDTO.getPaises(), usuarioDTO.getServiciosOfrecidos(),usuarioDTO.getCredencial());
     	}else if (usuarioDTO.getTipoCuenta() == TipoUsuario.TURISTA) {
     		user = new Turista(usuarioDTO.getNombre(), usuarioDTO.getApellido(),usuarioDTO.getSexo() , usuarioDTO.getDni(), usuarioDTO.getEmail(), 
     				usuarioDTO.getTelefono(), usuarioDTO.getTipoCuenta(), usuarioDTO.getTipoAutenticacion(), usuarioDTO.getContraseña());

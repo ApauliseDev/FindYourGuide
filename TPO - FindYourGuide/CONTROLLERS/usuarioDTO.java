@@ -3,7 +3,7 @@ package CONTROLLERS;
 import java.util.List;
 
 import CLASES.ServicioOfrecido;
-
+import CLASES.Credencial;
 public class usuarioDTO   {
 
 	private String contraseña;
@@ -18,10 +18,11 @@ public class usuarioDTO   {
 	private List<String> ciudades;
 	private List<String> paises;
     private List<ServicioOfrecido> servicios ; 
+    private Credencial credencial;
 
     public usuarioDTO(String nombre, String apellido, String sexo, int dni, String email, 
     		int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion, String contraseña,
-    		List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios) {
+    		List<String> ciudades,  List<String> paises, List<ServicioOfrecido> servicios,Credencial credencial) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.sexo = sexo;
@@ -34,10 +35,21 @@ public class usuarioDTO   {
         this.ciudades = ciudades;
         this.paises = paises;
         this.servicios = servicios;
+        this.credencial = credencial;
     }
     
     
-    public List<String> getCiudades() {
+    public Credencial getCredencial() {
+		return credencial;
+	}
+
+
+	public void setCredencial(Credencial credencial) {
+		this.credencial = credencial;
+	}
+
+
+	public List<String> getCiudades() {
         return ciudades;
     }
 

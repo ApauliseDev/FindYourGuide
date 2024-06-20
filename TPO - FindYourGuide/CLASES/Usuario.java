@@ -43,10 +43,7 @@ public abstract class Usuario {
 		this.contraseña = contraseña;
 	}
 
-	
-    public boolean verificarContraseña(String contraseña) {
-        return this.contraseña.equals(contraseña);
-    }
+
     
 	public TipoAutenticacion getTipoAutenticacion() {
 		return tipoAutenticacion;
@@ -117,6 +114,10 @@ public abstract class Usuario {
     
     public void guardar() {
         UsuarioController.getUsuarios().add(this);
+    }
+    
+    public boolean verificarContraseña(String contraseña) {
+        return this.contraseña.equals(contraseña);
     }
     
     // Sobrescribir el método toString para imprimir todos los atributos
