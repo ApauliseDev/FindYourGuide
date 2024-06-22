@@ -3,85 +3,114 @@ package CLASES;
 import java.util.Date;
 
 public class Viaje {
-	
-	private int IdViaje;
-	private ServicioOfrecido ServicioOfrecido;
-	private String Destino;
-	private Date FechaInicio;
-	private Guia GuiaAsociado;
-	private int MontoTotal;
-	private Reserva Reserva;
-	
-	public Viaje(int idViaje, CLASES.ServicioOfrecido servicioOfrecido, String destino, Date fechaInicio, Guia guiaAsociado, int montoTotal, CLASES.Reserva reserva) {
-		super();
-		IdViaje = idViaje;
-		ServicioOfrecido = servicioOfrecido;
-		Destino = destino;
-		FechaInicio = fechaInicio;
-		GuiaAsociado = guiaAsociado;
-		MontoTotal = montoTotal;
-		Reserva = reserva;
-	}
+    private int idViaje;
+    private ServicioOfrecido servicioOfrecido;
+    private String destino;
+    private String ciudad;
+    private String pais;
+    private Date fechaInicio;
+    private Guia guiaAsociado;
+    private int montoTotal;
+    private Reserva reserva;
+    private String estado;
 
-	public int getIdViaje() {
-		return IdViaje;
-	}
+    public Viaje(int idViaje, ServicioOfrecido servicioOfrecido, String destino, String ciudad, String pais, Date fechaInicio, Guia guiaAsociado, int montoTotal) {
+        this.idViaje = idViaje;
+        this.servicioOfrecido = servicioOfrecido;
+        this.destino = destino;
+        this.ciudad = ciudad;
+        this.pais = pais;
+        this.fechaInicio = fechaInicio;
+        this.guiaAsociado = guiaAsociado;
+        this.montoTotal = montoTotal;
+        this.estado = "DISPONIBLE";
+    }
 
-	public void setIdViaje(int idViaje) {
-		this.IdViaje = idViaje;
-	}
+    public int getIdViaje() {
+        return idViaje;
+    }
 
-	public ServicioOfrecido getServicioOfrecido() {
-		return ServicioOfrecido;
-	}
+    public void setIdViaje(int idViaje) {
+        this.idViaje = idViaje;
+    }
 
-	public void setServicioOfrecido(ServicioOfrecido servicioOfrecido) {
-		this.ServicioOfrecido = servicioOfrecido;
-	}
+    public ServicioOfrecido getServicioOfrecido() {
+        return servicioOfrecido;
+    }
 
-	public String getDestino() {
-		return Destino;
-	}
+    public void setServicioOfrecido(ServicioOfrecido servicioOfrecido) {
+        this.servicioOfrecido = servicioOfrecido;
+    }
 
-	public void setDestino(String destino) {
-		this.Destino = destino;
-	}
+    public String getDestino() {
+        return destino;
+    }
 
-	public Date getFechaInicio() {
-		return FechaInicio;
-	}
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
 
-	public void setFechaInicio(Date fechaInicio) {
-		this.FechaInicio = fechaInicio;
-	}
+    public String getCiudad() {
+        return ciudad;
+    }
 
-	public Guia getGuiaAsociado() {
-		return GuiaAsociado;
-	}
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
 
-	public void setGuiaAsociado(Guia guiaAsociado) {
-		this.GuiaAsociado = guiaAsociado;
-	}
+    public String getPais() {
+        return pais;
+    }
 
-	public int getMontoTotal() {
-		return MontoTotal;
-	}
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
 
-	public void setMontoTotal(int montoTotal) {
-		this.MontoTotal = montoTotal;
-	}
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
 
-	public Reserva getReserva() {
-		return Reserva;
-	}
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
 
-	public void setReserva(Reserva reserva) {
-		this.Reserva = reserva;
-	}
+    public Guia getGuiaAsociado() {
+        return guiaAsociado;
+    }
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+    public void setGuiaAsociado(Guia guiaAsociado) {
+        this.guiaAsociado = guiaAsociado;
+    }
 
-	}
+    public int getMontoTotal() {
+        return montoTotal;
+    }
 
+    public void setMontoTotal(int montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void reservar() {
+        this.estado = "RESERVADO";
+    }
+
+    public void cancelarReserva() {
+        this.estado = "DISPONIBLE";
+    }
 }

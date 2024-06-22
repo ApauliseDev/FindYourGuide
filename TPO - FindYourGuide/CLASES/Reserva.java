@@ -3,89 +3,64 @@ package CLASES;
 import java.util.Date;
 
 public class Reserva {
-	
-	private String Estado;
-	private Date FechaDeInicio;
-	private Date FechaFin;
-	private int MontoDeAnticipo;
-	private Viaje Viaje;
-	
-	
-	
-	public Reserva(String estado, Date fechaDeInicio, Date fechaFin, int montoDeAnticipo, CLASES.Viaje viaje) {
-		super();
-		Estado = estado;
-		FechaDeInicio = fechaDeInicio;
-		FechaFin = fechaFin;
-		MontoDeAnticipo = montoDeAnticipo;
-		Viaje = viaje;
-	}
+    private static int idCounter = 0;
+    private int idReserva;
+    private String estado;
+    private Date fechaDelInicio;
+    private Date fechaFin;
+    private int montoDeAnticipo;
+    private Viaje viaje;
 
+    public Reserva(Date fechaDelInicio, Date fechaFin, int montoDeAnticipo, Viaje viaje) {
+        this.idReserva = ++idCounter;
+        this.estado = "Activa";
+        this.fechaDelInicio = fechaDelInicio;
+        this.fechaFin = fechaFin;
+        this.montoDeAnticipo = montoDeAnticipo;
+        this.viaje = viaje;
+    }
 
+    public int getIdReserva() {
+        return idReserva;
+    }
 
-	public String getEstado() {
-		return Estado;
-	}
+    public String getEstado() {
+        return estado;
+    }
 
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
+    public Date getFechaDelInicio() {
+        return fechaDelInicio;
+    }
 
-	public void setEstado(String estado) {
-		this.Estado = estado;
-	}
+    public void setFechaDelInicio(Date fechaDelInicio) {
+        this.fechaDelInicio = fechaDelInicio;
+    }
 
+    public Date getFechaFin() {
+        return fechaFin;
+    }
 
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
 
-	public Date getFechaDeInicio() {
-		return FechaDeInicio;
-	}
+    public int getMontoDeAnticipo() {
+        return montoDeAnticipo;
+    }
 
+    public void setMontoDeAnticipo(int montoDeAnticipo) {
+        this.montoDeAnticipo = montoDeAnticipo;
+    }
 
+    public Viaje getViaje() {
+        return viaje;
+    }
 
-	public void setFechaDeInicio(Date fechaDeInicio) {
-		this.FechaDeInicio = fechaDeInicio;
-	}
-
-
-
-	public Date getFechaFin() {
-		return FechaFin;
-	}
-
-
-
-	public void setFechaFin(Date fechaFin) {
-		this.FechaFin = fechaFin;
-	}
-
-
-
-	public int getMontoDeAnticipo() {
-		return MontoDeAnticipo;
-	}
-
-
-
-	public void setMontoDeAnticipo(int montoDeAnticipo) {
-		this.MontoDeAnticipo = montoDeAnticipo;
-	}
-
-
-
-	public Viaje getViaje() {
-		return Viaje;
-	}
-
-
-
-	public void setViaje(Viaje viaje) {
-		this.Viaje = viaje;
-	}
-
-
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+    public void setViaje(Viaje viaje) {
+        this.viaje = viaje;
+    }
 }

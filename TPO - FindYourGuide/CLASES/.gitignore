@@ -16,3 +16,9 @@
 /SistemaVerificacion.class
 /SistemaVerificacionIA.class
 /AdaptadorVerificacion.class
+/SistemaAutenticacionMail.class
+/SistemaAutenticacionFacebook.class
+/SistemaAutenticacionGoogle.class
+/SistemaAutenticacionAppleID.class
+/AdaptadorAutenticacion.class
+/EstadoReservado.class

@@ -1,6 +1,7 @@
 package CONTROLLERS;
 import CONTROLLERS.usuarioDTO;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 import CLASES.Guia;
@@ -64,8 +65,38 @@ public class UsuarioController {
     public void imprimirUsuarios() {
         for (Usuario usuario : usuarios) {
             System.out.println(usuario);
-        }}
+        }
+       }
     
+    
+    //FUNCIONES PARA BUSCAR GUIA POR NOMBRE, CIUDAD Y PAIS
+    
+    public List<Guia> buscarGuiasPorNombre(String nombre) {
+    	 return usuarios.stream()
+    	 .filter(u -> u instanceof Guia)
+    	 .map(u -> (Guia) u)
+    	 .filter(g -> g.getNombre().equalsIgnoreCase
+    	(nombre))
+    	 .collect(Collectors.toList());
+    	 }
+    
+    public List<Guia> buscarGuiasPorCiudad(String ciudad) {
+    	 return usuarios.stream()
+    	 .filter(u -> u instanceof Guia)
+    	 .map(u -> (Guia) u)
+    	 .filter(g -> g.getCiudades().contains(ciudad))
+    	 .collect(Collectors.toList());
+    	 }
+    
+    public List<Guia> buscarGuiasPorPais(String pais) {
+    	 return usuarios.stream()
+    	 .filter(u -> u instanceof Guia)
+    	 .map(u -> (Guia) u)
+    	 .filter(g -> g.getPaises().contains(pais))
+    	 .collect(Collectors.toList());
+    	 }
+    	
+
 
     
 
