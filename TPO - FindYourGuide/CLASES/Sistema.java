@@ -47,6 +47,7 @@ public class Sistema {
         usuarioController.registrarUsuario(user4);
         usuarioController.registrarUsuario(user5);
         usuarioController.registrarUsuario(user6);
+        usuarioController.registrarUsuario(user7);
 
         SistemaVerificacion sistemaVerificacion = new SistemaVerificacionIA();
         AdaptadorVerificacion adaptadorVerificacion = new AdaptadorVerificacion(sistemaVerificacion);
@@ -148,7 +149,7 @@ public class Sistema {
             if (credencialVerificada) {
                 usuarioDTO uDTO = new usuarioDTO(nombre, apellido, sexo, dni, email, telefono,
                         rol, autenticacion, contrasena, ciudades, paises, servicios, credencial);
-                boolean autenticacionExitosa = sistema.autenticarUsuario(uDTO);
+                boolean autenticacionExitosa = Sistema.usuarioController.autenticarUsuario(uDTO) ;
 
                 if (autenticacionExitosa) {
                     usuarioController.registrarUsuario(uDTO);
@@ -162,11 +163,11 @@ public class Sistema {
         } else {
             usuarioDTO uDTO = new usuarioDTO(nombre, apellido, sexo, dni, email, telefono,
                     rol, autenticacion, contrasena, null, null, null, null);
-            boolean autenticacionExitosa = sistema.autenticarUsuario(uDTO);
+            boolean autenticacionExitosa = Sistema.usuarioController.autenticarUsuario(uDTO) ;
 
             if (autenticacionExitosa) {
                 usuarioController.registrarUsuario(uDTO);
-                System.out.println("Turista registrado exitosamente.");
+                System.out.println("Turista registrado exitosamente."); 
             } else {
                 System.out.println("Error al autenticar el usuario. Registro fallido.");
             }
@@ -193,6 +194,7 @@ public class Sistema {
                 if (usuario.getTipoCuenta() == TipoUsuario.GUIA) {
                     menuGuia(scanner, sistema, (Guia) usuario);
                 } else if (usuario.getTipoCuenta() == TipoUsuario.TURISTA) {
+                	Turista turistaGlobal =   sistema.usuarioController.buscarTuristaPorEmail(emailLogin);
                     menuTurista(scanner, sistema, (Turista) usuario);
                 }
             } else {
@@ -206,20 +208,47 @@ public class Sistema {
     private static void menuGuia(Scanner scanner, Sistema sistema, Guia guia) {
         while (true) {
             System.out.println("Menú de Guía:");
-            System.out.println("1- Ver reservas asociadas");
-            System.out.println("2- Cancelar reserva");
+            System.out.println("1- Aceptar reservas");
+            System.out.println("2- Mostrar mis viajes");
             System.out.println("3- Cerrar sesión");
 
             int opcionGuia = scanner.nextInt();
 
             switch (opcionGuia) {
                 case 1:
-                    verReservas(guia);
+                	List<Reserva> reservasPendientes = sistema.controladorReserva.listarReservasGuia(guia);
+                	 if (reservasPendientes.isEmpty()) {
+                         System.out.println("No hay reservas pendientes.");
+                     } else {
+                         System.out.println("Reservas Pendientes:");
+                         for (Reserva reserva : reservasPendientes) {
+                             System.out.println(reserva);
+
+                             System.out.println("¿Desea aceptar esta reserva? (1-Sí, 2-No):");
+                             int opcion = scanner.nextInt();
+                             if (opcion == 1) {
+                                 sistema.controladorReserva.aceptarReserva(reserva);
+                                 System.out.println("Reserva aceptada y viaje creado.");
+                             } else {
+                                 sistema.controladorReserva.cancelarReserva(reserva);
+                                 System.out.println("Reserva rechazada.");
+                             }
+                         }
+                     }
                     break;
                 case 2:
-                    cancelarReserva(scanner, guia);
+                	List<Viaje> viajesGuia = sistema.controladorViaje.listarViajesGuia(guia);
+                	if (viajesGuia.isEmpty()) {
+                        System.out.println("No tienes viajes programados.");
+                    } else {
+                        System.out.println("Mis Viajes:");
+                        for (Viaje viaje : viajesGuia) {
+                            System.out.println(viaje);
+                        }
+                    }
                     break;
                 case 3:
+                    System.out.println("Cerrando sesión.");
                     return;
                 default:
                     System.out.println("Opción no válida.");
@@ -232,19 +261,73 @@ public class Sistema {
             System.out.println("Menú de Turista:");
             System.out.println("1- Realizar reserva");
             System.out.println("2- Buscar guía");
-            System.out.println("3- Cerrar sesión");
+            System.out.println("3- Ver mis reservas");
+            System.out.println("4- Cerrar sesión");
 
             int opcionTurista = scanner.nextInt();
 
             switch (opcionTurista) {
                 case 1:
-                    realizarReserva(scanner, sistema, turista);
+                    System.out.println("Ingrese el email del guía con quien desea reservar: ");
+                    String emailGuia = scanner.next();
+                    Guia guia = sistema.usuarioController.buscarGuiaPorMail(emailGuia);
+                    if (guia == null) {
+                        System.out.println("Guía no encontrado.");
+                        break;
+                    }
+                    
+                    
+                    System.out.println("Ingrese el tipo de servicio: ");
+                    
+                    for (ServicioOfrecido servicio : guia.getServicios()) {
+                        System.out.println("- " + servicio.getTipo() + ": " + servicio.getDescripcion());
+                    }
+                    String tipoServicio = scanner.next();
+                    ServicioOfrecido servicioElegido = null;
+                    for (ServicioOfrecido servicio : guia.getServicios()) {
+                    	if(servicio.getTipo() == tipoServicio  ) {
+                    		servicioElegido = servicio;
+                    	}
+                    }
+                    
+                    System.out.println("Ingrese la fecha inicio del viaje (YYYY-MM-DD): ");
+                    String fecha = scanner.next();
+                    Date fechaInicio = java.sql.Date.valueOf(fecha);
+                    
+                    System.out.println("Ingrese la fecha fin del viaje (YYYY-MM-DD): ");
+                    String fecha2 = scanner.next();
+                    Date fechaFin = java.sql.Date.valueOf(fecha2);
+                    
+                    
+                    System.out.println("Ingrese el monto de anticipo");
+                    int montoAnticipo = scanner.nextInt();
+                    
+                    System.out.println("Por ultimo, coloca tu mail:");
+                    String mailTurista = scanner.next();
+                    Usuario Turista = sistema.usuarioController.buscarUsuarioPorEmail(mailTurista);
+                
+
+                    Sistema.controladorReserva.crearReserva(servicioElegido, fechaInicio, fechaFin, montoAnticipo, guia, (Turista)Turista);
+               
+                    
                     break;
                 case 2:
                     buscarGuiaSubmenu(scanner, sistema);
                     break;
                 case 3:
-                    return;
+                    List<Reserva> reservasTurista = sistema.controladorReserva.listarReservasTurista(turista);
+                    if (reservasTurista.isEmpty()) {
+                        System.out.println("No tienes reservas.");
+                    } else {
+                        System.out.println("Mis Reservas:");
+                        for (Reserva reservaT : reservasTurista) {
+                            System.out.println(reservaT);
+                        }
+                    }
+                    break;
+                case 4:
+                	System.out.println("Cerrando sesión.");
+                	return;
                 default:
                     System.out.println("Opción no válida.");
             }
@@ -316,88 +399,13 @@ public class Sistema {
         }}
     
 
-    private static void verReservas(Guia guia) {
-        List<Reserva> reservas = guia.getReservas();
-        if (reservas.isEmpty()) {
-            System.out.println("No tiene reservas asociadas.");
-        } else {
-            for (Reserva reserva : reservas) {
-                System.out.println("ID Reserva: " + reserva.getIdReserva() + ", Estado: " + reserva.getEstado() +
-                        ", Fecha de Inicio: " + reserva.getFechaDelInicio() + ", Fecha Fin: " + reserva.getFechaFin() +
-                        ", Monto de Anticipo: " + reserva.getMontoDeAnticipo() + ", Viaje: " + reserva.getViaje().getDestino());
-            }
-        }
-    }
-
-    private static void cancelarReserva(Scanner scanner, Guia guia) {
-        System.out.println("Ingrese el ID de la reserva que desea cancelar:");
-        int idReserva = scanner.nextInt();
-        Reserva reserva = guia.buscarReservaPorId(idReserva);
-
-        if (reserva != null) {
-            guia.cancelarReserva(reserva);
-            System.out.println("Reserva cancelada con éxito.");
-        } else {
-            System.out.println("Reserva no encontrada.");
-        }
-    }
     
     
 
-    private static void realizarReserva(Scanner scanner, Sistema sistema, Turista turista) {
-        System.out.println("Ingrese la fecha de inicio de la reserva (yyyy-MM-dd):");
-        String fechaInicioStr = scanner.next();
-        Date fechaInicio = java.sql.Date.valueOf(fechaInicioStr);
-
-        System.out.println("Ingrese la fecha de fin de la reserva (yyyy-MM-dd):");
-        String fechaFinStr = scanner.next();
-        Date fechaFin = java.sql.Date.valueOf(fechaFinStr);
-
-        System.out.println("Ingrese el monto de anticipo:");
-        int montoDeAnticipo = scanner.nextInt();
-
-        System.out.println("Ingrese el ID del viaje que desea reservar:");
-        int idViaje = scanner.nextInt();
-        Viaje viaje = sistema.controladorViaje.buscarViajePorId(idViaje);
-
-        if (viaje != null) {
-            if (viaje.getEstado().equals("DISPONIBLE")) { // Verificar si el viaje está disponible
-                Reserva reserva = new Reserva(fechaInicio, fechaFin, montoDeAnticipo, viaje);
-                turista.agregarReserva(reserva);
-                viaje.reservar();
-                sistema.controladorReserva.registrarReserva(reserva);
-                System.out.println("Reserva realizada con éxito.");
-            } else {
-                System.out.println("El viaje no está disponible para ser reservado.");
-            }
-        } else {
-            System.out.println("El viaje no existe.");
-        }
-    }
 
 
 
 
-    private boolean autenticarUsuario(usuarioDTO usuario) {
-        SistemaAutenticacion sistemaAutenticacion;
 
-        switch (usuario.getTipoAutenticacion()) {
-            case Mail:
-                sistemaAutenticacion = new SistemaAutenticacionMail();
-                break;
-            case AppleID:
-                sistemaAutenticacion = new SistemaAutenticacionAppleID();
-                break;
-            case Google:
-                sistemaAutenticacion = new SistemaAutenticacionGoogle();
-                break;
-            case Facebook:
-                sistemaAutenticacion = new SistemaAutenticacionFacebook();
-                break;
-            default:
-                throw new IllegalArgumentException("Tipo de autenticación no soportado: " + usuario.getTipoAutenticacion());
-        }
 
-        return sistemaAutenticacion.autenticar(usuario.getEmail(), usuario.getContraseña());
-    }
 }

@@ -1,14 +1,22 @@
 package CONTROLLERS;
 import CONTROLLERS.usuarioDTO;
+import INTERFACES.SistemaAutenticacion;
+
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import CLASES.Guia;
 import CLASES.ServicioOfrecido;
 import CLASES.Usuario;
 import CLASES.Turista;
 import CLASES.Sistema;
+import CLASES.SistemaAutenticacionAppleID;
+import CLASES.SistemaAutenticacionFacebook;
+import CLASES.SistemaAutenticacionGoogle;
+import CLASES.SistemaAutenticacionMail;
 
 
 public class UsuarioController {
@@ -71,6 +79,19 @@ public class UsuarioController {
     
     //FUNCIONES PARA BUSCAR GUIA POR NOMBRE, CIUDAD Y PAIS
     
+    public Guia buscarGuiaPorMail(String mail) {
+        Optional<Guia> guiaEncontrado = usuarios.stream()
+                .filter(u -> u instanceof Guia)
+                .map(u -> (Guia) u)
+                .filter(g -> g.getEmail().equals(mail)) // Filtrar por el correo electrónico
+                .findFirst(); // Encontrar el primero que coincida
+
+        return guiaEncontrado.orElse(null); // Devolver el Guia encontrado o null si no se encuentra
+    }
+    
+    
+    
+    
     public List<Guia> buscarGuiasPorNombre(String nombre) {
     	 return usuarios.stream()
     	 .filter(u -> u instanceof Guia)
@@ -95,6 +116,43 @@ public class UsuarioController {
     	 .filter(g -> g.getPaises().contains(pais))
     	 .collect(Collectors.toList());
     	 }
+    
+    
+    public boolean autenticarUsuario(usuarioDTO usuario) {
+        SistemaAutenticacion sistemaAutenticacion;
+
+        switch (usuario.getTipoAutenticacion()) {
+            case Mail:
+                sistemaAutenticacion = new SistemaAutenticacionMail();
+                break;
+            case AppleID:
+                sistemaAutenticacion = new SistemaAutenticacionAppleID();
+                break;
+            case Google:
+                sistemaAutenticacion = new SistemaAutenticacionGoogle();
+                break;
+            case Facebook:
+                sistemaAutenticacion = new SistemaAutenticacionFacebook();
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de autenticación no soportado: " + usuario.getTipoAutenticacion());
+        }
+
+        return sistemaAutenticacion.autenticar(usuario.getEmail(), usuario.getContraseña());
+    }
+
+	public Turista buscarTuristaPorEmail(String emailLogin) {
+        Optional<Turista> turistaEncontrado = usuarios.stream()
+                .filter(u -> u instanceof Turista)
+                .map(u -> (Turista) u)
+                .filter(g -> g.getEmail().equals(emailLogin)) // Filtrar por el correo electrónico
+                .findFirst(); // Encontrar el primero que coincida
+
+        return turistaEncontrado.orElse(null); // Devolver el Guia encontrado o null si no se encuentraub
+
+	}
+    
+    
     	
 
 

@@ -78,7 +78,7 @@ public class Guia extends Usuario {
     }
 
     public void cancelarReserva(Reserva reserva) {
-        reserva.setEstado("Cancelada");
+   
         eliminarReserva(reserva);
     }
 

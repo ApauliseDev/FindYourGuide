@@ -1,6 +1,7 @@
 package CLASES;
 
 import java.util.Date;
+import CLASES.Reserva;
 
 public class Viaje {
     private int idViaje;
@@ -14,18 +15,12 @@ public class Viaje {
     private Reserva reserva;
     private String estado;
 
-    public Viaje(int idViaje, ServicioOfrecido servicioOfrecido, String destino, String ciudad, String pais, Date fechaInicio, Guia guiaAsociado, int montoTotal) {
-        this.idViaje = idViaje;
-        this.servicioOfrecido = servicioOfrecido;
-        this.destino = destino;
-        this.ciudad = ciudad;
-        this.pais = pais;
-        this.fechaInicio = fechaInicio;
-        this.guiaAsociado = guiaAsociado;
-        this.montoTotal = montoTotal;
-        this.estado = "DISPONIBLE";
+    public Viaje(Reserva reserva) {
+        this.fechaInicio = reserva.getFechaDelInicio();
+        this.montoTotal = reserva.getMontoDeAnticipo() + 300 ; // Aquí se puede calcular el monto total si es diferente del anticipo
+        this.guiaAsociado = reserva.getGuia();
+        this.reserva = reserva;
     }
-
     public int getIdViaje() {
         return idViaje;
     }

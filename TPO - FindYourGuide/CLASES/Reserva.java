@@ -1,36 +1,74 @@
 package CLASES;
 
+
 import java.util.Date;
 
+import INTERFACES.estadoReserva;
+import ESTADOS.EstadoReservado; 
+import CLASES.ServicioOfrecido;
 public class Reserva {
     private static int idCounter = 0;
     private int idReserva;
-    private String estado;
+    private estadoReserva estado;
     private Date fechaDelInicio;
     private Date fechaFin;
     private int montoDeAnticipo;
-    private Viaje viaje;
+    private Guia guia;
+    private Turista turista;
+    private ServicioOfrecido servicio;
+    
 
-    public Reserva(Date fechaDelInicio, Date fechaFin, int montoDeAnticipo, Viaje viaje) {
+    public Reserva(ServicioOfrecido servicio,Date fechaDelInicio, Date fechaFin, int montoDeAnticipo,Guia guia, Turista turista) {
         this.idReserva = ++idCounter;
-        this.estado = "Activa";
+        this.servicio = servicio;
+        this.estado = new EstadoReservado();;
         this.fechaDelInicio = fechaDelInicio;
         this.fechaFin = fechaFin;
         this.montoDeAnticipo = montoDeAnticipo;
-        this.viaje = viaje;
+        this.guia = guia;
+        this.turista = turista;
+    }
+    
+    public Guia getGuia() {
+		return guia;
+	}
+
+	public void setGuia(Guia guia) {
+		this.guia = guia;
+	}
+
+	public Turista getTurista() {
+		return turista;
+	}
+
+	public void setTurista(Turista turista) {
+		this.turista = turista;
+	}
+
+	public ServicioOfrecido getServicio() {
+		return servicio;
+	}
+
+	public void setServicio(ServicioOfrecido servicio) {
+		this.servicio = servicio;
+	}
+
+	public void setEstado(estadoReserva estado) {
+        this.estado = estado;
+    }
+    
+    public void manejarEstado() {
+        estado.manejar(this);
     }
 
     public int getIdReserva() {
         return idReserva;
     }
 
-    public String getEstado() {
+    public estadoReserva getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
 
     public Date getFechaDelInicio() {
         return fechaDelInicio;
@@ -56,11 +94,4 @@ public class Reserva {
         this.montoDeAnticipo = montoDeAnticipo;
     }
 
-    public Viaje getViaje() {
-        return viaje;
-    }
-
-    public void setViaje(Viaje viaje) {
-        this.viaje = viaje;
-    }
 }
