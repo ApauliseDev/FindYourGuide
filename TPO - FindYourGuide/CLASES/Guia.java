@@ -65,6 +65,8 @@ public class Guia extends Usuario {
     public void eliminarReserva(Reserva reserva) {
         reservas.remove(reserva);
     }
+    
+    
 
     public Reserva buscarReservaPorId(int idReserva) {
         for (Reserva reserva : reservas) {
