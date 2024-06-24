@@ -1,5 +1,6 @@
 package CLASES;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ import INTERFACES.SistemaAutenticacion;
 import INTERFACES.SistemaVerificacion;
 import CONTROLLERS.ControladorReserva;
 import CONTROLLERS.ControladorViaje;
+import CLASES.Reserva;
 
 public class Sistema {
     private static List<Usuario> usuarios;
@@ -26,8 +28,18 @@ public class Sistema {
         this.controladorReserva = new ControladorReserva();
         
     }
+    
+    
+    
 
-    public static void main(String[] args) {
+    public static ControladorViaje getControladorViaje() {
+		return controladorViaje;
+	}
+
+
+
+
+	public static void main(String[] args) {
         //Instancias iniciales del sistema Global
         Sistema sistema = new Sistema();
         Scanner scanner = new Scanner(System.in);
@@ -37,10 +49,14 @@ public class Sistema {
         usuarioDTO user2 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour grupal", 250)), null);
         usuarioDTO user3 = new usuarioDTO("Carlos", "Lopez", "M", 23456789, "carlos@example.com", 234567890, TipoUsuario.TURISTA, TipoAutenticacion.Facebook, "password789", null, null, null, null);
         usuarioDTO user4 = new usuarioDTO("Ana", "Martinez", "F", 34567890, "ana@example.com", 345678901, TipoUsuario.GUIA, TipoAutenticacion.AppleID, "password012", List.of("Barcelona", "Valencia"), List.of("España"), List.of(new ServicioOfrecido("Traducciones", "Tour Individual", 100), new ServicioOfrecido("Tour Grupal", "Tour para grupos grandes", 250)), null);
-        usuarioDTO user5 = new usuarioDTO("David", "Garcia", "M", 45678901, "david@example.com", 456789012, TipoUsuario.GUIA, TipoAutenticacion.Google, "password345", List.of("Sevilla", "Granada"), List.of("España"), List.of(new ServicioOfrecido("Tour Grupal", "Traducciones", 300), new ServicioOfrecido("Tour de Naturaleza", "Tour por parques y reservas naturales", 10)), null);
-        usuarioDTO user6 = new usuarioDTO("Laura", "Fernandez", "F", 56789012, "laura@example.com", 567890123, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password678", null, null, null, null);
+        usuarioDTO user5 = new usuarioDTO("David", "Garcia", "M", 45678901, "david@example.com", 456789012, TipoUsuario.GUIA, TipoAutenticacion.Google, "123", List.of("Sevilla", "Granada"), List.of("España"), List.of(new ServicioOfrecido("Tour Grupal", "Traducciones", 300), new ServicioOfrecido("Tour de Naturaleza", "Tour por parques y reservas naturales", 10)), null);
+        usuarioDTO user6 = new usuarioDTO("Laura", "Fernandez", "F", 56789012, "laura@example.com", 567890123, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "123", null, null, null, null);
         usuarioDTO user7 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour grupal", 250)), null);
-
+        
+        
+        
+        
+        
         usuarioController.registrarUsuario(user1);
         usuarioController.registrarUsuario(user2);
         usuarioController.registrarUsuario(user3);
@@ -48,7 +64,23 @@ public class Sistema {
         usuarioController.registrarUsuario(user5);
         usuarioController.registrarUsuario(user6);
         usuarioController.registrarUsuario(user7);
-
+        
+        Guia guiaPrueba = Sistema.usuarioController.buscarGuiaPorMail("david@example.com");
+        Turista turistaPrueba = Sistema.usuarioController.buscarTuristaPorEmail("laura@example.com");
+        
+        ServicioOfrecido servicioPrueba = new ServicioOfrecido("Tour Grupal", "Traducciones", 300);
+        
+        
+        String fechaPruebaInicio = "2024-06-27";
+        Date fechaInicio = java.sql.Date.valueOf(fechaPruebaInicio);
+        String fechaPruebaFin = "2024-06-20";
+        Date fechaFin = java.sql.Date.valueOf(fechaPruebaFin);
+        
+    
+        
+        Sistema.controladorReserva.crearReserva(servicioPrueba, fechaInicio, fechaFin, 1000, guiaPrueba, turistaPrueba);
+        
+        
         SistemaVerificacion sistemaVerificacion = new SistemaVerificacionIA();
         AdaptadorVerificacion adaptadorVerificacion = new AdaptadorVerificacion(sistemaVerificacion);
 
@@ -65,8 +97,8 @@ public class Sistema {
                     registrarCuenta(scanner, sistema, adaptadorVerificacion);
                     break;
                 case 2: // INICIO SESIÓN
-                    iniciarSesion(scanner, sistema);
-                    break;
+                    String mailGlobal= iniciarSesion(scanner, sistema);
+                    break; 
                 case 3: // SALIR
                     usuarioController.imprimirUsuarios();
                     System.out.println("Saliendo del programa.");
@@ -174,7 +206,7 @@ public class Sistema {
         }
     }
 
-    private static void iniciarSesion(Scanner scanner, Sistema sistema) {
+    private static String iniciarSesion(Scanner scanner, Sistema sistema) {
         System.out.println("Por favor, seleccione el modo de autenticación (1-Mail, 2-Facebook, 3-Google, 4-AppleID): ");
         int tipoAutenticacionIntInicioSesion = scanner.nextInt();
         TipoAutenticacion autenticacionInicioSesion = TipoAutenticacion.values()[tipoAutenticacionIntInicioSesion - 1];
@@ -203,6 +235,8 @@ public class Sistema {
         } else {
             System.out.println("Email no encontrado.");
         }
+        
+        return emailLogin;
     }
 
     private static void menuGuia(Scanner scanner, Sistema sistema, Guia guia) {
@@ -222,8 +256,12 @@ public class Sistema {
                      } else {
                          System.out.println("Reservas Pendientes:");
                          for (Reserva reserva : reservasPendientes) {
-                             System.out.println(reserva);
-
+                             System.out.println("ID Reserva: " + reserva.getIdReserva());
+                             System.out.println("Fecha Inicio: " + reserva.getFechaDelInicio());
+                             System.out.println("Monto anticipo: " + reserva.getMontoDeAnticipo());
+                             System.out.println("Turista: " + reserva.getTurista().getNombre());
+                             System.out.println("Servicio a brindar: " + reserva.getServicio().getTipo());
+                             System.out.println("---------------------------------------------------------");
                              System.out.println("¿Desea aceptar esta reserva? (1-Sí, 2-No):");
                              int opcion = scanner.nextInt();
                              if (opcion == 1) {
@@ -237,13 +275,21 @@ public class Sistema {
                      }
                     break;
                 case 2:
-                	List<Viaje> viajesGuia = sistema.controladorViaje.listarViajesGuia(guia);
+                	List<Viaje> viajesGuia = Sistema.controladorViaje.listarViajesGuia(guia);
                 	if (viajesGuia.isEmpty()) {
                         System.out.println("No tienes viajes programados.");
                     } else {
                         System.out.println("Mis Viajes:");
+                        System.out.println("");
+                        int count = 1;
                         for (Viaje viaje : viajesGuia) {
-                            System.out.println(viaje);
+                        	System.out.println("Id viaje: " + count);
+                            System.out.println("Fecha: " + viaje.getFechaInicio());
+                            System.out.println("Monto Total: " + viaje.getMontoTotal());
+                            System.out.println("Turista: " + viaje.getReserva().getTurista().getNombre());
+                            System.out.println("Servicio a brindaR: " + viaje.getReserva().getServicio().getTipo());
+                            System.out.println("-----------------------------------------------------");
+                            count ++;
                         }
                     }
                     break;
@@ -262,7 +308,9 @@ public class Sistema {
             System.out.println("1- Realizar reserva");
             System.out.println("2- Buscar guía");
             System.out.println("3- Ver mis reservas");
-            System.out.println("4- Cerrar sesión");
+            System.out.println("4- Ver mis viajes");
+            System.out.println("5- Puntuar Guia");
+            System.out.println("6- Cerrar sesión");
 
             int opcionTurista = scanner.nextInt();
 
@@ -321,11 +369,59 @@ public class Sistema {
                     } else {
                         System.out.println("Mis Reservas:");
                         for (Reserva reservaT : reservasTurista) {
-                            System.out.println(reservaT);
+                            System.out.println("ID Reserva:" + reservaT.getIdReserva());
+                            System.out.println("Fecha inicio:" + reservaT.getFechaDelInicio());
+                            System.out.println("Fecha fin:" + reservaT.getFechaFin());
+                            System.out.println("Guia contratado:" + reservaT.getGuia().getNombre());
+                            System.out.println("Servicio contratado:" + reservaT.getServicio().getDescripcion());
+                            System.out.println("------------------------------------------------------------");
                         }
                     }
                     break;
                 case 4:
+                    List<Viaje> viajesTurista = Sistema.controladorViaje.obtenerViajesPorTurista(turista);
+                    if (viajesTurista.isEmpty()) {
+                        System.out.println("No tienes viajes.");
+                    } else {
+                        System.out.println("Mis Viajes: ");
+                        for (Viaje viaje : viajesTurista) {
+                            System.out.println("Fecha del viaje: " +viaje.getFechaInicio());
+                            System.out.println("Monto Total: " + viaje.getMontoTotal());
+                            System.out.println("Guia que da el Tour: " + viaje.getGuiaAsociado().getNombre());
+                            System.out.println("Estado del viaje: " + viaje.getEstado().obtenerEstado());
+                            System.out.println("---------------------------------------------------------------");
+                            System.out.println("¿Desea cancelar este viaje? (1-Sí, 2-No):");
+                            int opcionCancelar = scanner.nextInt();
+                            if (opcionCancelar == 1) {
+                                Sistema.controladorViaje.cancelarViaje(viaje);
+                                System.out.println("Viaje cancelado.");
+                            }
+                            
+                        }
+                    }
+                    break;
+             
+                case 5:
+                	 Turista turistaPuntuar = Sistema.usuarioController.buscarTuristaPorEmail(turista.getEmail());
+                    System.out.println("Ingrese el email del guía que desea puntuar:");
+                    String mailGuia = scanner.next();
+                    Guia guiaPuntuar = (Guia) sistema.usuarioController.buscarUsuarioPorEmail(mailGuia);
+                    if (guiaPuntuar != null) {
+                        System.out.println("Ingrese la puntuación (1-5):");
+                        double puntuacion = scanner.nextDouble();
+                        if (puntuacion >= 1 && puntuacion <= 5) {
+                        	turistaPuntuar.puntuarGuia(guiaPuntuar, puntuacion);
+                            System.out.println("Puntuación agregada exitosamente.");
+                        } else {
+                            System.out.println("Puntuación no válida.");
+                        }
+                    } else {
+                        System.out.println("Guía no encontrado.");
+                    }
+                	
+                	
+                	break;
+                case 6:
                 	System.out.println("Cerrando sesión.");
                 	return;
                 default:
@@ -397,6 +493,11 @@ public class Sistema {
         } else {
             System.out.println("Guía no encontrado.");
         }}
+
+
+
+
+
     
 
     

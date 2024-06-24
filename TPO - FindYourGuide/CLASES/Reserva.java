@@ -27,6 +27,7 @@ public class Reserva {
         this.montoDeAnticipo = montoDeAnticipo;
         this.guia = guia;
         this.turista = turista;
+
     }
     
     public Guia getGuia() {

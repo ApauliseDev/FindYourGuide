@@ -1,0 +1,5 @@
+- Arreglar lo que se ve en Guarani
+-Los viajes asociados a los guias no se estan mostrando.
+-Una vez aceptada la reserva, se elimine de la lista de reservas, asi el guia vuelve a ver la misma en su  lista de reservas.
+-Patron observer para Trofeos.
+-Aplicar el State en viaje.

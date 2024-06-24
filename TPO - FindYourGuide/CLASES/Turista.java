@@ -4,14 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import CONTROLLERS.TipoUsuario;
 import CONTROLLERS.TipoAutenticacion;
-
+import CLASES.TrofeoTurista;
 public class Turista extends Usuario {
     private List<Reserva> reservas;
+    private TrofeoTurista trofeoTurista;
 
     public Turista(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion,
                    String contraseña) {
         super(nombre, apellido, sexo, dni, email, telefono, tipoCuenta, tipoAutenticacion, contraseña);
         this.reservas = new ArrayList<>();
+        this.trofeoTurista = new TrofeoTurista(new Calificacion(this));
+        
+        
+    }
+    
+    public void puntuarGuia(Guia guia, double calificacion) {
+        guia.setCalificacion(calificacion);
+        this.trofeoTurista.incrementarGuiasPuntuados();
     }
 
     public void agregarReserva(Reserva reserva) {

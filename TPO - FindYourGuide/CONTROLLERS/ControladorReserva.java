@@ -11,7 +11,7 @@ import java.util.List;
 import CLASES.Reserva;
 import CLASES.ServicioOfrecido;
 import CLASES.Reserva;
-
+import CLASES.Sistema;
 public class ControladorReserva {
 	
 	 private ControladorViaje viajeController = new ControladorViaje();
@@ -36,12 +36,14 @@ public class ControladorReserva {
         
     }
     
-    public void aceptarReserva(Reserva reserva) {
+    public ControladorViaje aceptarReserva(Reserva reserva) {
         reserva.setEstado(new EstadoConfirmado());
         System.out.println("Reserva aceptada por el guía. Estado cambiado a 'Confirmado'.");
         reserva.manejarEstado();
         
-        viajeController.registrarViaje(reserva);
+        Sistema.getControladorViaje().registrarViaje(reserva); 
+        
+        return viajeController;
     }
     
     public void cancelarReserva(Reserva reserva) {

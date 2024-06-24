@@ -1,16 +1,18 @@
 package CLASES;
-
+import CLASES.TrofeoGuia;
 import java.util.List;
 import java.util.ArrayList;
 import CONTROLLERS.TipoUsuario;
 import CONTROLLERS.TipoAutenticacion;
-
+import CLASES.TrofeoTurista;
 public class Guia extends Usuario {
     private List<String> ciudades;
     private List<String> paises;
     private List<ServicioOfrecido> servicios;
     private Credencial credencial;
     private List<Reserva> reservas;
+    private TrofeoGuia trofeoGuia;
+
 
     public Guia(String nombre, String apellido, String sexo, int dni, String email, int telefono, TipoUsuario tipoCuenta, TipoAutenticacion tipoAutenticacion,
                 String contraseña, List<String> ciudades, List<String> paises, List<ServicioOfrecido> servicios, Credencial credencial) {
@@ -20,6 +22,14 @@ public class Guia extends Usuario {
         this.servicios = servicios;
         this.credencial = credencial;
         this.reservas = new ArrayList<>();
+        this.trofeoGuia = new TrofeoGuia(new Calificacion(this));
+
+    }
+    
+
+    
+    public void setCalificacion(double calificacion) {
+        this.trofeoGuia.getCalificacion().setCalificacion(calificacion);
     }
 
     public void setCredencial(Credencial credencial) {

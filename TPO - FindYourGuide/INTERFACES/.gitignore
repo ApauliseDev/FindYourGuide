@@ -2,3 +2,7 @@
 /AutenticacionDeTerceros.class
 /SistemaAutenticacion.class
 /estadoReserva.class
+/EstadoViaje.class
+/ObserverTrofeo.class
+/CalificacionObserver.class
+/IObserverTrofeo.class

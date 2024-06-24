@@ -1,4 +1,7 @@
 package CLASES;
+import INTERFACES.EstadoViaje;
+import EstadosViaje.EstadoReservado;
+
 
 import java.util.Date;
 import CLASES.Reserva;
@@ -13,14 +16,33 @@ public class Viaje {
     private Guia guiaAsociado;
     private int montoTotal;
     private Reserva reserva;
-    private String estado;
+    private EstadoViaje estado;
 
     public Viaje(Reserva reserva) {
         this.fechaInicio = reserva.getFechaDelInicio();
         this.montoTotal = reserva.getMontoDeAnticipo() + 300 ; // Aquí se puede calcular el monto total si es diferente del anticipo
         this.guiaAsociado = reserva.getGuia();
         this.reserva = reserva;
+        this.estado = new EstadoReservado(); // Estado inicial
     }
+    
+    public void setEstado(EstadoViaje estado) {
+        this.estado = estado;
+    }
+
+    public EstadoViaje getEstado() {
+		return estado;
+	}
+
+	public void manejarEstado() {
+        estado.manejarEstado(this);
+    }
+
+    public String obtenerEstado() {
+        return estado.obtenerEstado();
+    }
+    
+   
     public int getIdViaje() {
         return idViaje;
     }
@@ -92,20 +114,17 @@ public class Viaje {
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
     }
-
-    public String getEstado() {
-        return estado;
+    
+    public String toString() {
+        return "Viaje{" +
+                "guia=" + reserva.getGuia().getNombre() +
+                ", turista=" + reserva.getTurista().getNombre() +
+                ", servicio=" + reserva.getServicio().getTipo() +
+                ", fecha=" + fechaInicio +
+                ", estado=" + obtenerEstado() +
+                '}';
     }
+    
+    
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public void reservar() {
-        this.estado = "RESERVADO";
-    }
-
-    public void cancelarReserva() {
-        this.estado = "DISPONIBLE";
-    }
 }
