@@ -45,11 +45,11 @@ public class Sistema {
         Scanner scanner = new Scanner(System.in);
 
         // Crear y registrar algunos usuarios
-        usuarioDTO user1 = new usuarioDTO("Juan", "Perez", "M", 12345678, "juan@example.com", 123456789, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "password123", null, null, null, null);
+        usuarioDTO user1 = new usuarioDTO("Juan", "Perez", "M", 12345678, "juan@example.com", 123456789, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "012", null, null, null, null);
         usuarioDTO user2 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour grupal", 250)), null);
         usuarioDTO user3 = new usuarioDTO("Carlos", "Lopez", "M", 23456789, "carlos@example.com", 234567890, TipoUsuario.TURISTA, TipoAutenticacion.Facebook, "password789", null, null, null, null);
-        usuarioDTO user4 = new usuarioDTO("Ana", "Martinez", "F", 34567890, "ana@example.com", 345678901, TipoUsuario.GUIA, TipoAutenticacion.AppleID, "password012", List.of("Barcelona", "Valencia"), List.of("España"), List.of(new ServicioOfrecido("Traducciones", "Tour Individual", 100), new ServicioOfrecido("Tour Grupal", "Tour para grupos grandes", 250)), null);
-        usuarioDTO user5 = new usuarioDTO("David", "Garcia", "M", 45678901, "david@example.com", 456789012, TipoUsuario.GUIA, TipoAutenticacion.Google, "123", List.of("Sevilla", "Granada"), List.of("España"), List.of(new ServicioOfrecido("Tour Grupal", "Traducciones", 300), new ServicioOfrecido("Tour de Naturaleza", "Tour por parques y reservas naturales", 10)), null);
+        usuarioDTO user4 = new usuarioDTO("Ana", "Martinez", "F", 34567890, "ana@example.com", 345678901, TipoUsuario.GUIA, TipoAutenticacion.AppleID, "123", List.of("Barcelona", "Valencia"), List.of("España"), List.of(new ServicioOfrecido("Traducciones", "Tour Individual", 100), new ServicioOfrecido("Tour Grupal", "Tour Individual", 250)), null);
+        usuarioDTO user5 = new usuarioDTO("David", "Garcia", "M", 45678901, "david@example.com", 456789012, TipoUsuario.GUIA, TipoAutenticacion.Google, "123", List.of("Sevilla", "Granada"), List.of("España"), List.of(new ServicioOfrecido("Tour Grupal", "Traducciones", 300), new ServicioOfrecido("Tour Individual", "Tour Grupal", 10)), null);
         usuarioDTO user6 = new usuarioDTO("Laura", "Fernandez", "F", 56789012, "laura@example.com", 567890123, TipoUsuario.TURISTA, TipoAutenticacion.Mail, "123", null, null, null, null);
         usuarioDTO user7 = new usuarioDTO("Maria", "Gomez", "F", 87654321, "maria@example.com", 987654321, TipoUsuario.GUIA, TipoAutenticacion.Google, "password456", List.of("Madrid"), List.of("España"), List.of(new ServicioOfrecido("Tour Individual", "Tour grupal", 250)), null);
         
@@ -244,7 +244,8 @@ public class Sistema {
             System.out.println("Menú de Guía:");
             System.out.println("1- Aceptar reservas");
             System.out.println("2- Mostrar mis viajes");
-            System.out.println("3- Cerrar sesión");
+            System.out.println("3- Finalizar un viaje");
+            System.out.println("4- Cerrar sesión");
 
             int opcionGuia = scanner.nextInt();
 
@@ -294,6 +295,10 @@ public class Sistema {
                     }
                     break;
                 case 3:
+                	     Sistema.controladorViaje.finalizarViajes(scanner, guia);
+                	
+                	break;
+                case 4:
                     System.out.println("Cerrando sesión.");
                     return;
                 default:
@@ -310,7 +315,8 @@ public class Sistema {
             System.out.println("3- Ver mis reservas");
             System.out.println("4- Ver mis viajes");
             System.out.println("5- Puntuar Guia");
-            System.out.println("6- Cerrar sesión");
+            System.out.println("6- Abonar Viajes");
+            System.out.println("7- Cerrar sesión");
 
             int opcionTurista = scanner.nextInt();
 
@@ -334,7 +340,7 @@ public class Sistema {
                     ServicioOfrecido servicioElegido = null;
                     for (ServicioOfrecido servicio : guia.getServicios()) {
                     	if(servicio.getTipo() == tipoServicio  ) {
-                    		servicioElegido = servicio;
+                    		 servicioElegido = servicio;
                     	}
                     }
                     
@@ -350,6 +356,7 @@ public class Sistema {
                     System.out.println("Ingrese el monto de anticipo");
                     int montoAnticipo = scanner.nextInt();
                     
+                 
                     System.out.println("Por ultimo, coloca tu mail:");
                     String mailTurista = scanner.next();
                     Usuario Turista = sistema.usuarioController.buscarUsuarioPorEmail(mailTurista);
@@ -373,7 +380,6 @@ public class Sistema {
                             System.out.println("Fecha inicio:" + reservaT.getFechaDelInicio());
                             System.out.println("Fecha fin:" + reservaT.getFechaFin());
                             System.out.println("Guia contratado:" + reservaT.getGuia().getNombre());
-                            System.out.println("Servicio contratado:" + reservaT.getServicio().getDescripcion());
                             System.out.println("------------------------------------------------------------");
                         }
                     }
@@ -422,6 +428,39 @@ public class Sistema {
                 	
                 	break;
                 case 6:
+                	List<Viaje> viajesTurista1 = Sistema.controladorViaje.obtenerViajesPorTurista(turista);
+                    if (viajesTurista1.isEmpty()) {
+                        System.out.println("No tienes viajes.");
+                        return;
+                    }
+
+                    System.out.println("Mis Viajes: ");
+                    for (Viaje viaje : viajesTurista1) {
+                        Reserva reserva = viaje.getReserva();
+                        double montoAnticipo1 = reserva.getMontoDeAnticipo();
+                        double precioServicio = reserva.getServicio().getPrecio();
+
+                        if (montoAnticipo1 < precioServicio) {
+                            System.out.println("Fecha del viaje: " + viaje.getFechaInicio());
+                            System.out.println("Monto Total del Servicio: " + precioServicio);
+                            System.out.println("Monto Anticipo Pagado: " + montoAnticipo1);
+                            System.out.println("Monto Pendiente: " + (precioServicio - montoAnticipo1));
+                            System.out.println("Guía que da el Tour: " + viaje.getGuiaAsociado().getNombre());
+                            System.out.println("Estado del viaje: " + viaje.getEstado().obtenerEstado());
+                            System.out.println("---------------------------------------------------------------");
+                            System.out.println("¿Desea abonar el monto pendiente? (1-Sí, 2-No):");
+                            int opcionAbonar = scanner.nextInt();
+                            if (opcionAbonar == 1) {
+                                System.out.println("Monto pendiente abonado exitosamente.");
+                                // Aquí se puede actualizar el estado del viaje si es necesario
+                                // Por ejemplo: viaje.setMontoPendiente(0); o similar.
+                            }
+                        }
+                    }
+                	
+                	
+                	break;
+                case 7:
                 	System.out.println("Cerrando sesión.");
                 	return;
                 default:
@@ -492,21 +531,7 @@ public class Sistema {
             }
         } else {
             System.out.println("Guía no encontrado.");
-        }}
-
-
-
-
-
-    
-
-    
-    
-
-
-
-
-
-
+        }
+    }
 
 }
