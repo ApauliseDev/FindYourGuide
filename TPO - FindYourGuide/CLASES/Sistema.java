@@ -97,7 +97,7 @@ public class Sistema {
                     registrarCuenta(scanner, sistema, adaptadorVerificacion);
                     break;
                 case 2: // INICIO SESIÓN
-                    String mailGlobal= iniciarSesion(scanner, sistema);
+                    iniciarSesion(scanner, sistema);
                     break; 
                 case 3: // SALIR
                     usuarioController.imprimirUsuarios();
@@ -206,7 +206,7 @@ public class Sistema {
         }
     }
 
-    private static String iniciarSesion(Scanner scanner, Sistema sistema) {
+    private static void iniciarSesion(Scanner scanner, Sistema sistema) {
         System.out.println("Por favor, seleccione el modo de autenticación (1-Mail, 2-Facebook, 3-Google, 4-AppleID): ");
         int tipoAutenticacionIntInicioSesion = scanner.nextInt();
         TipoAutenticacion autenticacionInicioSesion = TipoAutenticacion.values()[tipoAutenticacionIntInicioSesion - 1];
@@ -235,8 +235,7 @@ public class Sistema {
         } else {
             System.out.println("Email no encontrado.");
         }
-        
-        return emailLogin;
+     
     }
 
     private static void menuGuia(Scanner scanner, Sistema sistema, Guia guia) {
@@ -261,7 +260,6 @@ public class Sistema {
                              System.out.println("Fecha Inicio: " + reserva.getFechaDelInicio());
                              System.out.println("Monto anticipo: " + reserva.getMontoDeAnticipo());
                              System.out.println("Turista: " + reserva.getTurista().getNombre());
-                             System.out.println("Servicio a brindar: " + reserva.getServicio().getTipo());
                              System.out.println("---------------------------------------------------------");
                              System.out.println("¿Desea aceptar esta reserva? (1-Sí, 2-No):");
                              int opcion = scanner.nextInt();
